@@ -3,6 +3,7 @@ package vn.thinh.Studentms.model.entity;
 import jakarta.persistence.*;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Student {
@@ -38,11 +39,14 @@ public class Student {
     })
     @JoinColumn(name = "user_id")
     private User user;
-
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
+    private List<Score> score;
+    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "studentList")
+    private List<Parent> parentList;
     public Student() {
     }
 
-    public Student(String name, String email, String phone, String address, String gender, Date dob, SchoolClass schoolClass, User user) {
+    public Student(String name, String email, String phone, String address, String gender, Date dob, SchoolClass schoolClass, User user, List<Score> score, List<Parent> parentList) {
         this.name = name;
         this.email = email;
         this.phone = phone;
@@ -51,6 +55,8 @@ public class Student {
         this.dob = dob;
         this.schoolClass = schoolClass;
         this.user = user;
+        this.score = score;
+        this.parentList = parentList;
     }
 
     public int getId() {
@@ -123,5 +129,13 @@ public class Student {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public List<Score> getScore() {
+        return score;
+    }
+
+    public void setScore(List<Score> score) {
+        this.score = score;
     }
 }

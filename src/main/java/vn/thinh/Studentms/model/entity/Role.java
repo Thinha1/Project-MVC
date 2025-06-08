@@ -10,7 +10,7 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "role_id")
     private int id;
-    @Column(name = "role_name", length = 100)
+    @Column(name = "role_name", length = 100, unique = true)
     private String role;
     @Column(name = "role_description", length = 100)
     private String description;
@@ -20,7 +20,7 @@ public class Role {
             CascadeType.REFRESH,
             CascadeType.DETACH
     })
-    @JoinTable(name = "user_roles",
+    @JoinTable(name = "user_role",
     joinColumns = @JoinColumn(name = "role_id")
     , inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<User> userList;

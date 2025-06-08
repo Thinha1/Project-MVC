@@ -3,6 +3,7 @@ package vn.thinh.Studentms.model.entity;
 import jakarta.persistence.*;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -53,10 +54,18 @@ public class Staff {
     }, mappedBy = "head_teacher")
     private SchoolClass schoolClassTeaching;
 
+    @ManyToMany(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE,
+            CascadeType.REFRESH,
+            CascadeType.DETACH
+    }, mappedBy = "staffList")
+    private List<Subject> subjects;
+
     public Staff() {
     }
 
-    public Staff(User user, String name, Set<Role> roles, String gender, String phone, String address, String email, Date dob, School school, SchoolClass schoolClassTeaching) {
+    public Staff(User user, String name, Set<Role> roles, String gender, String phone, String address, String email, Date dob, School school, SchoolClass schoolClassTeaching, List<Subject> subjects) {
         this.user = user;
         this.name = name;
         this.roles = roles;
@@ -67,6 +76,7 @@ public class Staff {
         this.dob = dob;
         this.school = school;
         this.schoolClassTeaching = schoolClassTeaching;
+        this.subjects = subjects;
     }
 
     public int getId() {
