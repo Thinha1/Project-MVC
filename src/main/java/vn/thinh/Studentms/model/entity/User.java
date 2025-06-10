@@ -1,93 +1,66 @@
 package vn.thinh.Studentms.model.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.util.List;
 import java.util.Set;
 
 @Entity
+@Table(name = "users")
+@Getter
+@Setter
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private int id;
-    @Column(name = "user_name", length = 100)
+
+    @Column(name = "user_name", unique = true)
     private String username;
-    @Column(name = "user_password", length = 100)
+
+    @Column(name = "user_password")
     private String password;
+    @Column(name = "user_email")
+    private String email;
+    @Column(name = "user_fullname")
+    private String fullName;
+    @Column(name = "user_phone")
+    private String phone;
+
     @ManyToMany(cascade = {
-            CascadeType.PERSIST,
-            CascadeType.MERGE,
-            CascadeType.REFRESH,
-            CascadeType.DETACH
-    }, mappedBy = "userList")
-    private Set<Role> roles;
-    @OneToOne(cascade = {
-            CascadeType.PERSIST,
-            CascadeType.MERGE,
-    }, mappedBy = "user")
-    private Staff staff;
-    @OneToOne(cascade = {
-            CascadeType.PERSIST,
-            CascadeType.MERGE,
-    }, mappedBy = "user")
+            CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH
+    })
+    @JoinTable(name = "user_role",
+    joinColumns = @JoinColumn(name = "user_id")
+    , inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private List<Role> roleList;
+
+    @Column(name = "user_enable")
+    private boolean enabled;
+
+    // OneToOne với Student nếu là STUDENT
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Student student;
+
+    @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL)
+    private List<SchoolClass> schoolClassList;
+
 
     public User() {
     }
 
-    public User(String username, String password, Set<Role> roles, Staff staff, Student student) {
+    public User(String username, String password, String email, String fullName, String phone, List<Role> roles, boolean enabled, Student student, List<SchoolClass> schoolClassList) {
         this.username = username;
         this.password = password;
-        this.roles = roles;
-        this.staff = staff;
+        this.email = email;
+        this.fullName = fullName;
+        this.phone = phone;
+        this.roleList = roles;
+        this.enabled = enabled;
         this.student = student;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
-
-    public Staff getStaff() {
-        return staff;
-    }
-
-    public void setStaff(Staff staff) {
-        this.staff = staff;
-    }
-
-    public Student getStudent() {
-        return student;
-    }
-
-    public void setStudent(Student student) {
-        this.student = student;
+        this.schoolClassList = schoolClassList;
     }
 }
+

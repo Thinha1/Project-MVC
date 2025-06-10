@@ -1,67 +1,29 @@
 package vn.thinh.Studentms.model.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
 @Entity
+@Table(name = "roles")
+@Getter @Setter
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "role_id")
     private int id;
-    @Column(name = "role_name", length = 100, unique = true)
+    @Column(name = "role")
     private String role;
-    @Column(name = "role_description", length = 100)
-    private String description;
-    @ManyToMany(cascade = {
-            CascadeType.PERSIST,
-            CascadeType.MERGE,
-            CascadeType.REFRESH,
-            CascadeType.DETACH
-    })
-    @JoinTable(name = "user_role",
-    joinColumns = @JoinColumn(name = "role_id")
-    , inverseJoinColumns = @JoinColumn(name = "user_id"))
+
+    @ManyToMany(mappedBy = "roleList")
     private List<User> userList;
 
     public Role() {
     }
-    public Role(String role, String description, List<User> userList) {
+
+    public Role(String role, List<User> userList) {
         this.role = role;
-        this.description = description;
-        this.userList = userList;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public List<User> getUserList() {
-        return userList;
-    }
-
-    public void setUserList(List<User> userList) {
         this.userList = userList;
     }
 }

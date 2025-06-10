@@ -1,98 +1,45 @@
 package vn.thinh.Studentms.model.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
 @Entity
+@Table(name = "subjects")
+@Getter
+@Setter
 public class Subject {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "subject_id")
     private int id;
-
-    @ManyToMany(cascade = {
-            CascadeType.PERSIST,
-            CascadeType.MERGE,
-            CascadeType.REFRESH,
-            CascadeType.DETACH
-    })
-    @JoinTable(name = "subject_teacher",
-            joinColumns = @JoinColumn(name = "subject_id"),
-            inverseJoinColumns = @JoinColumn(name = "staff_id")
-    )
-    private List<Staff> staffList;
-
-    @Column(name = "subject_name", length = 100)
+    @Column(name = "subject_code", unique = true)
+    private String code;
+    @Column(name = "subject_name")
     private String name;
-    @Column(name = "subject_description", length = 100)
+    @Column(name = "subject_description")
     private String description;
-    @Column(name = "subject_exam_type", length = 100)
-    private String examType;
-    @OneToMany(cascade = {
-            CascadeType.PERSIST,
-            CascadeType.MERGE,
-            CascadeType.REFRESH,
-            CascadeType.DETACH
-    }, mappedBy = "subject")
+    @Column(name = "subject_credits")
+    private int credits;
+    @OneToMany(mappedBy = "subject")
     private List<Score> scoreList;
+    @Column(name = "exam_type")
+    private ExamType examType;
+
+    public enum ExamType {
+        TRAC_NGHIEM, TU_LUAN, BAO_CAO
+    }
 
     public Subject() {
     }
 
-    public Subject(List<Staff> staffList, String name, String description, String examType, List<Score> scoreList) {
-        this.staffList = staffList;
+    public Subject(String code, String name, String description, int credits, List<Score> scoreList, ExamType examType) {
+        this.code = code;
         this.name = name;
         this.description = description;
-        this.examType = examType;
+        this.credits = credits;
         this.scoreList = scoreList;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public List<Staff> getStaffList() {
-        return staffList;
-    }
-
-    public void setStaffList(List<Staff> staffList) {
-        this.staffList = staffList;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getExamType() {
-        return examType;
-    }
-
-    public void setExamType(String examType) {
         this.examType = examType;
-    }
-
-    public List<Score> getScoreList() {
-        return scoreList;
-    }
-
-    public void setScoreList(List<Score> scoreList) {
-        this.scoreList = scoreList;
     }
 }

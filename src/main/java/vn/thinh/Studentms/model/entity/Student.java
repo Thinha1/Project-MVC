@@ -1,141 +1,62 @@
 package vn.thinh.Studentms.model.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
+@Table(name = "students")
+@Getter
+@Setter
 public class Student {
     @Id
-    @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "student_id")
     private int id;
-    @Column(name = "student_name", length = 100)
-    private String name;
-    @Column(name = "student_email", length = 100)
-    private String email;
-    @Column(name = "student_phone", length = 15)
-    private String phone;
-    @Column(name = "student_address", length = 100)
-    private String address;
-    @Column(name = "student_gender", length = 10)
-    private String gender;
-    @Column(name = "student_dob")
-    private Date dob;
-    @ManyToOne(cascade = {
-            CascadeType.PERSIST,
-            CascadeType.MERGE,
-            CascadeType.REFRESH,
-            CascadeType.DETACH
-    })
-    @JoinColumn(name = "class_id")
-    private SchoolClass schoolClass;
-    @OneToOne(cascade = {
-            CascadeType.PERSIST,
-            CascadeType.MERGE,
-            CascadeType.REFRESH,
-            CascadeType.DETACH
-    })
+
+    @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
-    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
-    private List<Score> score;
-    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "studentList")
-    private List<Parent> parentList;
+
+    @Column(name = "student_code", unique = true)
+    private String studentCode;
+
+    @ManyToOne(cascade = {
+            CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH
+    })
+    @JoinColumn(name = "class_id")
+    private SchoolClass schoolClassId;
+
+    @Column(name = "date_of_birth")
+    private LocalDate dateOfBirth;
+
+    @Column(name = "gender")
+    private Gender gender;
+    @Column(name = "student_address")
+    private String address;
+
+    @OneToMany(mappedBy = "student", cascade = {
+            CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH
+    })
+    private List<Score> scores;
+
+    public enum Gender {
+        MALE, FEMALE
+    }
+
     public Student() {
     }
 
-    public Student(String name, String email, String phone, String address, String gender, Date dob, SchoolClass schoolClass, User user, List<Score> score, List<Parent> parentList) {
-        this.name = name;
-        this.email = email;
-        this.phone = phone;
-        this.address = address;
-        this.gender = gender;
-        this.dob = dob;
-        this.schoolClass = schoolClass;
+    public Student(User user, String studentCode, SchoolClass schoolClassId, LocalDate dateOfBirth, Gender gender, String address, List<Score> scores) {
         this.user = user;
-        this.score = score;
-        this.parentList = parentList;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
+        this.studentCode = studentCode;
+        this.schoolClassId = schoolClassId;
+        this.dateOfBirth = dateOfBirth;
         this.gender = gender;
-    }
-
-    public Date getDob() {
-        return dob;
-    }
-
-    public void setDob(Date dob) {
-        this.dob = dob;
-    }
-
-    public SchoolClass getSchoolClass() {
-        return schoolClass;
-    }
-
-    public void setSchoolClass(SchoolClass schoolClass) {
-        this.schoolClass = schoolClass;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public List<Score> getScore() {
-        return score;
-    }
-
-    public void setScore(List<Score> score) {
-        this.score = score;
+        this.address = address;
+        this.scores = scores;
     }
 }
