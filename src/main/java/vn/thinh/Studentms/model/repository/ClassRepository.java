@@ -4,4 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import vn.thinh.Studentms.model.entity.SchoolClass;
 
 public interface ClassRepository extends JpaRepository<SchoolClass, Integer> {
+    SchoolClass findByName(String className);
+
+    SchoolClass findByCode(String classCode);
 }

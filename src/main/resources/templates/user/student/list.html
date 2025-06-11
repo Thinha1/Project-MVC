@@ -9,13 +9,14 @@
 
 <div class="container mt-4">
     <h2 class="mb-4">Danh sách sinh viên</h2>
-    <a class="btn btn-success mb-3" th:href="@{/students/create}">+ Thêm sinh viên</a>
+    <a class="btn btn-success mb-3" th:href="@{/student/showForm}">+ Thêm sinh viên</a>
     <table class="table table-bordered">
         <thead class="table-dark">
         <tr>
             <th>Mã SV</th>
             <th>Họ tên</th>
             <th>Lớp</th>
+            <th>Ngành</th>
             <th>Ngày sinh</th>
             <th>Giới tính</th>
             <th>Địa chỉ</th>
@@ -24,15 +25,16 @@
         </thead>
         <tbody>
         <tr th:each="student : ${students}">
-            <td th:text="${student.studentCode}"></td>
-            <td th:text="${student.user.fullName}"></td>
-            <td th:text="${student.schoolClassId}"></td>
+            <td th:text="${student.id}"></td>
+            <td th:text="${student.fullName}"></td>
+            <td th:text="${student.schoolClassId.getCode()}"></td>
+            <td th:text="${student.courseId.getName()}"></td>
             <td th:text="${student.dateOfBirth}"></td>
             <td th:text="${student.gender}"></td>
             <td th:text="${student.address}"></td>
             <td>
-                <a class="btn btn-info btn-sm" th:href="@{/students/view/{id}(id=${student.id})}">Xem</a>
-                <a class="btn btn-warning btn-sm" th:href="@{/students/edit/{id}(id=${student.id})}">Sửa</a>
+                <a class="btn btn-info btn-sm" th:href="@{/student/view/{id}(id=${student.id})}">Xem điểm</a>
+                <a class="btn btn-warning btn-sm" th:href="@{/student/edit/{id}(id=${student.id})}">Sửa</a>
                 <a class="btn btn-danger btn-sm"
                    th:href="@{/students/delete/{id}(id=${student.id})}"
                    onclick="return confirm('Bạn có chắc muốn xoá sinh viên này không?');">Xoá</a>

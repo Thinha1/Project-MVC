@@ -13,7 +13,6 @@ import java.util.List;
 @Setter
 public class Student {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "student_id")
     private int id;
 
@@ -21,8 +20,8 @@ public class Student {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(name = "student_code", unique = true)
-    private String studentCode;
+    @Column(name = "fullName")
+    private String fullName;
 
     @ManyToOne(cascade = {
             CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH
@@ -38,10 +37,15 @@ public class Student {
     @Column(name = "student_address")
     private String address;
 
-    @OneToMany(mappedBy = "student", cascade = {
-            CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH
-    })
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
     private List<Score> scores;
+
+    @ManyToOne(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH
+    })
+    @JoinColumn(name = "course_id")
+    private Course courseId;
 
     public enum Gender {
         MALE, FEMALE
@@ -50,9 +54,8 @@ public class Student {
     public Student() {
     }
 
-    public Student(User user, String studentCode, SchoolClass schoolClassId, LocalDate dateOfBirth, Gender gender, String address, List<Score> scores) {
+    public Student(User user, SchoolClass schoolClassId, LocalDate dateOfBirth, Gender gender, String address, List<Score> scores) {
         this.user = user;
-        this.studentCode = studentCode;
         this.schoolClassId = schoolClassId;
         this.dateOfBirth = dateOfBirth;
         this.gender = gender;

@@ -1,12 +1,41 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Login</title></head>
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f8f9fa;
+        }
+        .login-form {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+    </style>
+</head>
 <body>
-<h2>Login</h2>
-<form th:action="@{/auth/login}" method="post">
-    <label>Tài khoản: <input type="text" name="username"/></label><br/>
-    <label>Mật khẩu: <input type="password" name="password"/></label><br/>
-    <button type="submit">Đăng nhập</button>
-</form>
+
+<div class="login-form">
+    <h2 class="text-center">Đăng nhập</h2>
+    <form th:action="@{/auth/login}" method="post">
+        <div class="mb-3">
+            <label class="form-label">Tài khoản</label>
+            <input type="text" name="username" class="form-control" placeholder="Nhập tài khoản">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Mật khẩu</label>
+            <input type="password" name="password" class="form-control" placeholder="Nhập mật khẩu">
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Đăng nhập</button>
+    </form>
+</div>
+
 </body>
 </html>

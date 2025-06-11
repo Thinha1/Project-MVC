@@ -28,6 +28,12 @@ public class SchoolClass {
     @JoinColumn(name = "teacher_id")
     private User teacher;
 
+    @ManyToOne(cascade = {
+            CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH
+    })
+    @JoinColumn(name = "course_id")
+    private Course course;
+
     public SchoolClass() {
     }
 
@@ -37,5 +43,18 @@ public class SchoolClass {
         this.description = description;
         this.students = students;
         this.teacher = teacher;
+    }
+
+    @Override
+    public String toString() {
+        return "SchoolClass{" +
+                "id=" + id +
+                ", code='" + code + '\'' +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", students=" + students +
+                ", teacher=" + teacher +
+                ", course=" + course +
+                '}';
     }
 }

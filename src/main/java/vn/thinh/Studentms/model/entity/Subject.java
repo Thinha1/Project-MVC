@@ -27,6 +27,15 @@ public class Subject {
     @Column(name = "exam_type")
     private ExamType examType;
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {
+            CascadeType.PERSIST,
+            CascadeType.REFRESH,
+            CascadeType.DETACH,
+            CascadeType.MERGE
+    })
+    @JoinColumn(name = "course_id")
+    private Course course;
+
     public enum ExamType {
         TRAC_NGHIEM, TU_LUAN, BAO_CAO
     }
@@ -41,5 +50,19 @@ public class Subject {
         this.credits = credits;
         this.scoreList = scoreList;
         this.examType = examType;
+    }
+
+    @Override
+    public String toString() {
+        return "Subject{" +
+                "id=" + id +
+                ", code='" + code + '\'' +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", credits=" + credits +
+                ", scoreList=" + scoreList +
+                ", examType=" + examType +
+                ", course=" + course +
+                '}';
     }
 }
