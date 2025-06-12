@@ -12,12 +12,10 @@ public class Score {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @ManyToOne(cascade = {
-            CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH
-    })
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "student_id")
     private Student student;
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "subject_id")
     private Subject subject;
     @Column(name = "score")
@@ -30,5 +28,15 @@ public class Score {
         this.student = student;
         this.subject = subject;
         this.score = score;
+    }
+
+    @Override
+    public String toString() {
+        return "Score{" +
+                "id=" + id +
+                ", student=" + student +
+                ", subject=" + subject +
+                ", score=" + score +
+                '}';
     }
 }

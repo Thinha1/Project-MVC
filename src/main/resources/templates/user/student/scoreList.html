@@ -10,7 +10,7 @@
 <div class="container mt-5">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h3>Bảng điểm của sinh viên: <span th:text="${student.fullName}"></span></h3>
-<!--        <a class="btn btn-primary" th:href="@{/scores/add(studentId=${student.id})}">+ Thêm điểm</a>-->
+        <a class="btn btn-primary" th:href="@{/student/addScore/{id}(id=${student.id})}">+ Thêm điểm</a>
     </div>
 
     <table class="table table-bordered table-hover bg-white shadow-sm">
@@ -33,9 +33,9 @@
             <td th:text="${score.score}"></td>
             <td>
                 <a class="btn btn-sm btn-warning me-1"
-                   th:href="@{/scores/edit/{id}(id=${score.id})}">Sửa</a>
+                   th:href="@{/student/scores/edit/{id}(id=${score.subject.getId()})}">Sửa</a>
                 <a class="btn btn-sm btn-danger"
-                   th:href="@{/scores/delete/{id}(id=${score.id})}"
+                   th:href="@{/student/scores/delete/{id}(id=${score.subject.getId()})}"
                    onclick="return confirm('Bạn có chắc muốn xoá điểm này?');">Xoá</a>
             </td>
         </tr>

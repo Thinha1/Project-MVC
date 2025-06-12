@@ -29,9 +29,7 @@ public class User {
     @Column(name = "user_phone")
     private String phone;
 
-    @ManyToMany(cascade = {
-            CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH
-    })
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(name = "user_role",
     joinColumns = @JoinColumn(name = "user_id")
     , inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -44,7 +42,7 @@ public class User {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Student student;
 
-    @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "teacher", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     private List<SchoolClass> schoolClassList;
 
 
@@ -61,6 +59,20 @@ public class User {
         this.enabled = enabled;
         this.student = student;
         this.schoolClassList = schoolClassList;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", fullName='" + fullName + '\'' +
+                ", phone='" + phone + '\'' +
+                ", roleList=" + roleList +
+                ", enabled=" + enabled +
+                '}';
     }
 }
 

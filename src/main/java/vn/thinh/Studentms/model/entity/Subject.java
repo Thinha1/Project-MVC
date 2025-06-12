@@ -22,12 +22,13 @@ public class Subject {
     private String description;
     @Column(name = "subject_credits")
     private int credits;
-    @OneToMany(mappedBy = "subject")
+    @OneToMany(mappedBy = "subject", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     private List<Score> scoreList;
     @Column(name = "exam_type")
+    @Enumerated(EnumType.STRING)
     private ExamType examType;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {
+    @ManyToOne(cascade = {
             CascadeType.PERSIST,
             CascadeType.REFRESH,
             CascadeType.DETACH,
@@ -60,7 +61,6 @@ public class Subject {
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", credits=" + credits +
-                ", scoreList=" + scoreList +
                 ", examType=" + examType +
                 ", course=" + course +
                 '}';

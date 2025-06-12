@@ -17,12 +17,7 @@ public class Course {
     @Column(name = "course_name", unique = true)
     private String name;
 
-    @OneToMany(cascade = {
-            CascadeType.PERSIST,
-            CascadeType.MERGE,
-            CascadeType.DETACH,
-            CascadeType.REFRESH
-    }, mappedBy = "courseId")
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH}, mappedBy = "courseId")
     private List<Student> studentList;
 
     @OneToMany(cascade = {
@@ -44,9 +39,6 @@ public class Course {
         return "Course{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", studentList=" + studentList +
-                ", subject=" + subject +
-                ", schoolClassList=" + schoolClassList +
                 '}';
     }
 }

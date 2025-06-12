@@ -16,7 +16,7 @@ public class Student {
     @Column(name = "student_id")
     private int id;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "user_id")
     private User user;
 
@@ -37,12 +37,11 @@ public class Student {
     @Column(name = "student_address")
     private String address;
 
-    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Score> scores;
 
     @ManyToOne(cascade = {
-            CascadeType.PERSIST,
-            CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH
+            CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH
     })
     @JoinColumn(name = "course_id")
     private Course courseId;
@@ -61,5 +60,19 @@ public class Student {
         this.gender = gender;
         this.address = address;
         this.scores = scores;
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "id=" + id +
+                ", user=" + user +
+                ", fullName='" + fullName + '\'' +
+                ", schoolClassId=" + schoolClassId +
+                ", dateOfBirth=" + dateOfBirth +
+                ", gender=" + gender +
+                ", address='" + address + '\'' +
+                ", courseId=" + courseId +
+                '}';
     }
 }

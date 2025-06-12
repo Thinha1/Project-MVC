@@ -52,9 +52,6 @@ public class SchoolClass {
                 ", code='" + code + '\'' +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", students=" + students +
-                ", teacher=" + teacher +
-                ", course=" + course +
                 '}';
     }
 }
