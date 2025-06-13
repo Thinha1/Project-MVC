@@ -29,7 +29,7 @@ public class User {
     @Column(name = "user_phone")
     private String phone;
 
-    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToMany()
     @JoinTable(name = "user_role",
     joinColumns = @JoinColumn(name = "user_id")
     , inverseJoinColumns = @JoinColumn(name = "role_id"))

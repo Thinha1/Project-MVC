@@ -137,10 +137,13 @@ public class StudentController {
         return "/user/student/scoreList";
     }
 
-    @GetMapping("/scores/delete/{id}")
-    public String deleteScore(@PathVariable("id") int id) {
+    @GetMapping("/scores/delete/{studentId}/{subjectId}")
+    public String deleteScore(@PathVariable("studentId") int studentId,@PathVariable("subjectId") int id, Model model) {
         studentService.deleteScore(id);
-        return "redirect:/student/view/" + id;
+        Student student = studentService.findById(studentId);
+        model.addAttribute("student", student);
+        model.addAttribute("scores", studentService.findById(studentId).getScores());
+        return "redirect:/student/view/" + studentId;
     }
 
 }

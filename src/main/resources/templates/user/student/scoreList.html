@@ -35,7 +35,7 @@
                 <a class="btn btn-sm btn-warning me-1"
                    th:href="@{/student/scores/edit/{id}(id=${score.subject.getId()})}">Sửa</a>
                 <a class="btn btn-sm btn-danger"
-                   th:href="@{/student/scores/delete/{id}(id=${score.subject.getId()})}"
+                   th:href="@{/student/scores/delete/{studentId}/{subjectId}(studentId=${student.id}, subjectId=${score.subject.id})}"
                    onclick="return confirm('Bạn có chắc muốn xoá điểm này?');">Xoá</a>
             </td>
         </tr>

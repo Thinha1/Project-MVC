@@ -8,4 +8,6 @@ public interface RoleRepository extends JpaRepository<Role, Integer> {
     List<Role> findByRoleIn(List<String> roles);
 
     Role findByRole(String role);
+
+    List<String> findRoleById(int id);
 }

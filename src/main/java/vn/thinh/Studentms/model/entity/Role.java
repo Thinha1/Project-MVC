@@ -16,7 +16,7 @@ public class Role {
     @Column(name = "role")
     private String role;
 
-    @ManyToMany(mappedBy = "roleList")
+    @ManyToMany(mappedBy = "roleList", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private List<User> userList;
 
     public Role() {
@@ -25,5 +25,13 @@ public class Role {
     public Role(String role, List<User> userList) {
         this.role = role;
         this.userList = userList;
+    }
+
+    @Override
+    public String toString() {
+        return "Role{" +
+                "id=" + id +
+                ", role='" + role + '\'' +
+                '}';
     }
 }

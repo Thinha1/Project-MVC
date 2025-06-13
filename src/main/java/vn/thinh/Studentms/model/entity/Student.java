@@ -16,7 +16,7 @@ public class Student {
     @Column(name = "student_id")
     private int id;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User user;
 
