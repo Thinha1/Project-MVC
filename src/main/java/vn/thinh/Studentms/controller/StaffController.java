@@ -44,6 +44,7 @@ public class StaffController {
     public String createStaff(UserDTO user, Model model){
         model.addAttribute("user", user);
         model.addAttribute("roles", roleService.getRole());
+        model.addAttribute("classList", userService.getClasList());
         return "/user/staff/createStaff";
     }
 
@@ -59,6 +60,7 @@ public class StaffController {
         UserDTO userDTO = userService.convertToDTO(user);
         model.addAttribute("staff", userDTO);
         model.addAttribute("roles", roleService.getRole());
+        model.addAttribute("classList", userService.getClasList());
         return "/user/staff/editStaff";
     }
 

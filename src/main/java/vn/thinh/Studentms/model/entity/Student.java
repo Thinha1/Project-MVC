@@ -27,7 +27,7 @@ public class Student {
             CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH
     })
     @JoinColumn(name = "class_id")
-    private SchoolClass schoolClassId;
+    private SchoolClass schoolClass;
 
     @Column(name = "date_of_birth")
     private LocalDate dateOfBirth;
@@ -55,7 +55,7 @@ public class Student {
 
     public Student(User user, SchoolClass schoolClassId, LocalDate dateOfBirth, Gender gender, String address, List<Score> scores) {
         this.user = user;
-        this.schoolClassId = schoolClassId;
+        this.schoolClass = schoolClassId;
         this.dateOfBirth = dateOfBirth;
         this.gender = gender;
         this.address = address;
@@ -68,7 +68,7 @@ public class Student {
                 "id=" + id +
                 ", user=" + user +
                 ", fullName='" + fullName + '\'' +
-                ", schoolClassId=" + schoolClassId +
+                ", schoolClassId=" + schoolClass +
                 ", dateOfBirth=" + dateOfBirth +
                 ", gender=" + gender +
                 ", address='" + address + '\'' +

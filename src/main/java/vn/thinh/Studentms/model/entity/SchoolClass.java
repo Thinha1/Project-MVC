@@ -20,7 +20,7 @@ public class SchoolClass {
     private String name;
     @Column(name = "class_description")
     private String description;
-    @OneToMany(mappedBy = "schoolClassId", cascade = {
+    @OneToMany(mappedBy = "schoolClass", cascade = {
             CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH
     })
     private List<Student> students;

@@ -18,6 +18,7 @@
             <th>Họ tên</th>
             <th>Số điện thoại</th>
             <th>Vai trò</th>
+            <th>Lớp chủ nhiệm</th>
             <th>Hành động</th>
         </tr>
         </thead>
@@ -29,6 +30,7 @@
             <td th:text="${staff.phone}"></td>
             <td th:each="role: ${staff.roleList}"
             th:text="${role.role}"></td>
+            <td th:text="${#lists.isEmpty(staff.schoolClassList) ? 'null' : staff.schoolClassList.get(0).getCode() }"></td>
             <td>
                 <a class="btn btn-warning btn-sm" th:href="@{/staff/edit/{id}(id=${staff.id})}">Sửa</a>
                 <a class="btn btn-danger btn-sm"

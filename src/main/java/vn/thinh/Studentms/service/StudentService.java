@@ -72,7 +72,7 @@ public class StudentService {
         student.setAddress(studentDTO.getAddress());
         student.setUser(user);
         student.setCourseId(course);
-        student.setSchoolClassId(schoolClass);
+        student.setSchoolClass(schoolClass);
 
         studentRepository.save(student); // Lưu student trước khi tạo password
 
@@ -94,7 +94,7 @@ public class StudentService {
         dto.setEmail(student.getUser().getEmail());
         dto.setUserName(student.getUser().getUsername());
         dto.setCourseId(student.getCourseId().getId());
-        dto.setSchoolClassId(student.getSchoolClassId().getId());
+        dto.setSchoolClassId(student.getSchoolClass().getId());
         return dto;
     }
 
@@ -156,7 +156,7 @@ public class StudentService {
         SchoolClass schoolClass = classRepository.findById(studentDTO.getSchoolClassId())
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy lớp học"));
         student.setCourseId(course);
-        student.setSchoolClassId(schoolClass);
+        student.setSchoolClass(schoolClass);
 
         // 4. Cập nhật user liên quan (nếu bạn cho phép sửa email)
         User user = student.getUser();

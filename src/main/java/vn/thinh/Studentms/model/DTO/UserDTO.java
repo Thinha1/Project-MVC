@@ -16,4 +16,5 @@ public class UserDTO {
     private String phone;
     private String role;
     private List<String> roleList;
+    private String schoolClassCode;
 }

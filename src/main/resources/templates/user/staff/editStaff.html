@@ -56,18 +56,48 @@
             <input type="tel" class="form-control" id="phone" placeholder="Nhập số điện thoại" required th:field="*{phone}">
         </div>
 
-        <div>
+        <div id="role">
             <label>Vai trò</label>
             <label>
-                <select th:field="*{roleList}">
+                <select th:field="*{roleList}" id="roleValue">
                     <option th:each="r : ${roles}" th:value="${r}" th:text="${r}"></option>
                 </select>
             </label>
         </div>
+
+        <div id="class" style="display: none">
+            <label>Lớp chủ nhiệm</label>
+            <select th:field="*{schoolClassCode}" id="classValue">
+                <option th:each="c : ${classList}" th:value="${c}" th:text="${c}"></option>
+            </select>
+        </div>
+
 
         <button type="submit" class="btn btn-primary w-100">Lưu thông tin</button>
     </form>
 </div>
 
 </body>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const role = document.getElementById('roleValue');
+        const classList = document.getElementById('class');
+
+        function toggleClassList() {
+            const roleValue = role.value; // lấy lại mỗi lần
+            if (roleValue === "ROLE_TEACHER") {
+                classList.style.display = 'block';
+            } else {
+                classList.style.display = 'none';
+            }
+        }
+
+        // Gọi khi trang vừa load
+        toggleClassList();
+
+        // Gọi lại khi người dùng chọn
+        role.addEventListener('change', toggleClassList);
+    });
+
+</script>
 </html>

@@ -63,9 +63,38 @@
             </select>
         </div>
 
+        <div id="class" style="display: none">
+            <label>Lớp chủ nhiệm</label>
+            <select th:field="*{schoolClassCode}" id="classValue">
+                <option th:each="c : ${classList}" th:value="${c}" th:text="${c}"></option>
+            </select>
+        </div>
+
         <button type="submit" class="btn btn-primary w-100">Đăng ký</button>
     </form>
 </div>
 
 </body>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const role = document.getElementById('roleValue');
+        const classList = document.getElementById('class');
+
+        function toggleClassList() {
+            const roleValue = role.value; // lấy lại mỗi lần
+            if (roleValue === "ROLE_TEACHER") {
+                classList.style.display = 'block';
+            } else {
+                classList.style.display = 'none';
+            }
+        }
+
+        // Gọi khi trang vừa load
+        toggleClassList();
+
+        // Gọi lại khi người dùng chọn
+        role.addEventListener('change', toggleClassList);
+    });
+
+</script>
 </html>
