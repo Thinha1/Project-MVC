@@ -18,7 +18,7 @@
 <body class="bg-light">
 
 <div class="form-container">
-  <h3 class="text-center mb-4" th:text="${student.id == 0} ? 'Thêm Sinh viên' : 'Cập nhật Sinh viên'"></h3>
+  <h3 class="text-center mb-4" th:text="'Cập nhật Sinh viên'"></h3>
 
   <form th:action="@{/student/update}" method="post" th:object="${student}">
     <input type="hidden" th:field="*{id}" />
@@ -73,7 +73,7 @@
     </div>
 
     <button type="submit" class="btn btn-primary w-100"
-            th:text="${student.id == 0} ? 'Thêm sinh viên' : 'Cập nhật sinh viên'"></button>
+            th:text="'Cập nhật sinh viên'"></button>
   </form>
 </div>
 

@@ -2,17 +2,15 @@ package vn.thinh.Studentms.service;
 
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import vn.thinh.Studentms.model.DTO.ScoreDTO;
-import vn.thinh.Studentms.model.DTO.StudentDTO;
+import vn.thinh.Studentms.model.DTO.*;
 import vn.thinh.Studentms.model.entity.*;
 import vn.thinh.Studentms.model.repository.*;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class StudentService {
@@ -168,5 +166,110 @@ public class StudentService {
         Score score = scoreRepository.findBySubjectId(scoreDTO.getSubjectId());
         score.setScore(scoreDTO.getScore());
         scoreRepository.save(score);
+    }
+
+    public List<SchoolClass> showClassList(){
+        return classRepository.findAll(Sort.by(Sort.Direction.ASC, "code"));
+    }
+
+    public void addClass(ClassDTO classDTO){
+        SchoolClass schoolClass = new SchoolClass();
+        convertToEntity(classDTO, schoolClass);
+        Course course = courseRepository.findById(classDTO.getCourseId()).orElse(null);
+        schoolClass.setCourse(course);
+        classRepository.save(schoolClass);
+    }
+
+    public void updateClass(ClassDTO classDTO){
+        SchoolClass schoolClass = classRepository.findById(classDTO.getClassId()).orElseThrow(() -> new IllegalArgumentException("Class not found"));
+        convertToEntity(classDTO, schoolClass);
+        schoolClass.setCourse(courseRepository.findById(classDTO.getCourseId()).orElse(null));
+        if(classDTO.getTeacherId() != null){
+            schoolClass.setTeacher(userRepository.findById(classDTO.getTeacherId()).orElse(null));
+        }
+        else {
+            schoolClass.setTeacher(null);
+        }
+        classRepository.save(schoolClass);
+    }
+
+    private void convertToEntity(ClassDTO classDTO, SchoolClass schoolClass) {
+        schoolClass.setCode(classDTO.getClassCode());
+        if(classDTO.getTeacherId() != null){
+            User user = userRepository.findById(classDTO.getTeacherId()).orElse(null);
+            schoolClass.setTeacher(user);
+        }
+        else{
+            schoolClass.setTeacher(null);
+        }
+        schoolClass.setName(classDTO.getClassCode());
+    }
+
+    public void convertToDTO(SchoolClass schoolClass, ClassDTO classDTO){
+        classDTO.setClassId(schoolClass.getId());
+        classDTO.setClassCode(schoolClass.getCode());
+        classDTO.setCourseId(schoolClass.getCourse().getId());
+        if(schoolClass.getTeacher() != null){
+        classDTO.setTeacherId(schoolClass.getTeacher().getId());
+        }
+        else{
+            classDTO.setTeacherId(null);
+        }
+    }
+
+    public void deleteClass(int id){
+        List<Student> students = studentRepository.findBySchoolClassId(id);
+        students.forEach(student -> {
+            student.setSchoolClass(null);
+        });
+        classRepository.deleteById(id);
+    }
+
+    public List<Course> getCourseList(){
+        return courseRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
+    }
+
+    public List<String> getSubjectNameList(){
+        List<Subject> subjectList = subjectRepository.findAll();
+        return subjectList.stream().map(Subject::getName).toList();
+    }
+
+    public void addCourse(CourseDTO courseDTO){
+        Course course = new Course();
+        course.setName(courseDTO.getName());
+        courseRepository.save(course);
+    }
+
+    public void updateCourse(CourseDTO courseDTO){
+        Course course = courseRepository.findById(courseDTO.getId()).orElseThrow(() -> new IllegalArgumentException("Course not found"));
+        course.setName(courseDTO.getName());
+        courseRepository.save(course);
+    }
+
+    public void deleteCourse(int id){
+        Course course = courseRepository.findCourseById(id);
+        course.getSubject().forEach(subject -> {
+            subject.setCourse(null);
+            subjectRepository.save(subject);
+        });
+        courseRepository.delete(course);
+    }
+
+    public Course findCourseById(int id){
+        return courseRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Course not found"));
+    }
+
+    public List<Subject> getSubjectListByCourseId(int id){
+        Course course = courseRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Course not found"));
+        return course.getSubject();
+    }
+
+    public void addSubject(SubjectDTO subjectDTO){
+        Subject subject = new Subject();
+        subject.setCode(subjectDTO.getCode());
+        subject.setName(subjectDTO.getName());
+        subject.setCredits(subjectDTO.getCredits());
+        subject.setCourse(courseRepository.findByName(subjectDTO.getCourseName()));
+        subjectRepository.save(subject);
     }
 }

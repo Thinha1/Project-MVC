@@ -38,8 +38,9 @@ public class UserService {
         newUser.setEnabled(true);
         newUser.setRoleList(roleRepository.findByRoleIn(registerUser.getRoleList()));
         SchoolClass schoolClass = classRepository.findByCode(registerUser.getSchoolClassCode());
-        List<SchoolClass> schoolClassList = List.of(schoolClass);
-        schoolClass.setTeacher(newUser);
+        if(schoolClass != null){
+            schoolClass.setTeacher(newUser);
+        }
         userRepository.save(newUser);
     }
 
@@ -94,7 +95,17 @@ public class UserService {
     }
 
     public List<String> getClasList(){
-        List<String> classList = classRepository.findAll().stream().map(SchoolClass::getCode).toList();
-        return classList;
+        List<SchoolClass> classList = classRepository.findAll();
+        List<SchoolClass> availableClassList = classList.stream().filter(classObj -> classObj.getTeacher() == null).toList();
+        return availableClassList.stream().map(SchoolClass::getCode).toList();
+    }
+
+    //Trả về danh sách giáo viên chưa chủ nhiệm lớp nào
+    public List<User> getAvailableUser(){
+        List<User> teacherUsers = userRepository.findAll().stream().filter(user -> user.getRoleList().contains(roleRepository.findByRole("ROLE_TEACHER"))).toList();
+        return teacherUsers.stream().filter(user -> user.getSchoolClassList().isEmpty()).toList();
+    }
+    public SchoolClass findByTeacherId(int id){
+        return classRepository.findByTeacherId(id);
     }
 }

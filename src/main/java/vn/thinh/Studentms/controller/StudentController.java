@@ -1,14 +1,18 @@
 package vn.thinh.Studentms.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import vn.thinh.Studentms.model.DTO.ClassDTO;
+import vn.thinh.Studentms.model.DTO.CourseDTO;
 import vn.thinh.Studentms.model.DTO.ScoreDTO;
 import vn.thinh.Studentms.model.DTO.StudentDTO;
 import vn.thinh.Studentms.model.entity.*;
 import vn.thinh.Studentms.model.repository.*;
 import vn.thinh.Studentms.service.StudentService;
+import vn.thinh.Studentms.service.UserService;
 
 import java.util.List;
 
@@ -17,19 +21,21 @@ import java.util.List;
 public class StudentController {
     private final StudentRepository studentRepository;
     private final ScoreRepository scoreRepository;
+    private final UserService userService;
     private StudentService studentService;
     private CourseRepository courseRepository;
     private ClassRepository classRepository;
     private SubjectRepository subjectRepository;
 
     @Autowired
-    public StudentController(StudentService studentService, CourseRepository courseRepository, ClassRepository classRepository, SubjectRepository subjectRepository, StudentRepository studentRepository, ScoreRepository scoreRepository) {
+    public StudentController(StudentService studentService, CourseRepository courseRepository, ClassRepository classRepository, SubjectRepository subjectRepository, StudentRepository studentRepository, ScoreRepository scoreRepository, UserService userService) {
         this.studentService = studentService;
         this.courseRepository = courseRepository;
         this.classRepository = classRepository;
         this.subjectRepository = subjectRepository;
         this.studentRepository = studentRepository;
         this.scoreRepository = scoreRepository;
+        this.userService = userService;
     }
 
 
@@ -44,9 +50,7 @@ public class StudentController {
     @PostMapping("/add")
     public String addStudent(@ModelAttribute("student") StudentDTO studentDTO, Model model) {
         studentService.createStudent(studentDTO);
-        List<Student> students = studentService.getAll();
-        model.addAttribute("students", students);
-        return "user/student/list";
+        return "redirct:/user/student/list";
     }
 
     @GetMapping("/edit/{id}")
@@ -144,6 +148,109 @@ public class StudentController {
         model.addAttribute("student", student);
         model.addAttribute("scores", studentService.findById(studentId).getScores());
         return "redirect:/student/view/" + studentId;
+    }
+
+    @GetMapping("/showClass")
+    public String showClass(Model model){
+        List<SchoolClass> schoolClasses = studentService.showClassList();
+        model.addAttribute("schoolClasses", schoolClasses);
+        return "/user/student/class/classList";
+    }
+
+    @GetMapping("/class/showForm")
+    public String showCreateClassForm(Model model) {
+        model.addAttribute("class", new ClassDTO());
+        List<Course> courses = courseRepository.findAll();
+        model.addAttribute("courseNames", courses);
+        List<User> users = userService.getAvailableUser();
+        model.addAttribute("users", users);
+        return "/user/student/class/formAddClass";
+    }
+
+    @PostMapping("/class/add")
+    public String addClass(@ModelAttribute("class") ClassDTO classDTO, Model model){
+        studentService.addClass(classDTO);
+        return "redirect:/student/showClass";
+    }
+
+    @GetMapping("/class/edit/{id}")
+    public String showEditClassForm(@PathVariable("id") int id, Model model){
+        SchoolClass schoolClass = classRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Class not found"));
+        ClassDTO classDTO = new ClassDTO();
+        studentService.convertToDTO(schoolClass, classDTO);
+        model.addAttribute("class", classDTO);
+        List<Course> courses = courseRepository.findAll();
+        model.addAttribute("courseNames", courses);
+        List<User> users = userService.getAvailableUser();
+        model.addAttribute("users", users);
+        return "/user/student/class/formEditClass";
+    }
+
+    @PostMapping("/class/update")
+    public String updateClass(@ModelAttribute("class") ClassDTO classDTO, Model model){
+        studentService.updateClass(classDTO);
+        return "redirect:/student/showClass";
+    }
+
+    @GetMapping("/class/delete/{id}")
+    public String deleteClass(@PathVariable("id") int id, Model model){
+        studentService.deleteClass(id);
+        return "redirect:/student/showClass";
+    }
+
+    @GetMapping("/showCourse")
+    public String showCourseList(Model model){
+        model.addAttribute("courses", studentService.getCourseList());
+        model.addAttribute("subjects", studentService.getSubjectNameList());
+        return "/user/student/course/courseList";
+    }
+
+    @GetMapping("/course/showForm")
+    public String showCreateCourseForm(Model model) {
+        model.addAttribute("course", new CourseDTO());
+        return "/user/student/course/formAddCourse";
+    }
+
+    @PostMapping("/course/add")
+    public String addCourse(@ModelAttribute("course") CourseDTO courseDTO){
+        studentService.addCourse(courseDTO);
+        return "redirect:/student/showCourse";
+    }
+
+    @GetMapping("/course/edit/{id}")
+    public String editCourse(@PathVariable("id") int id, Model model){
+        Course course = studentService.findCourseById(id);
+        CourseDTO courseDTO = new CourseDTO();
+        courseDTO.setId(course.getId());
+        courseDTO.setName(course.getName());
+        model.addAttribute("course", courseDTO);
+        return "/user/student/course/formEditCourse";
+    }
+
+    @PostMapping("/course/update")
+    public String updateCourse(@ModelAttribute("course") CourseDTO courseDTO){
+        studentService.updateCourse(courseDTO);
+        return "redirect:/student/showCourse";
+    }
+
+    @GetMapping("/course/delete/{id}")
+    public String deleteCourse(@PathVariable("id") int id, Model model){
+        studentService.deleteCourse(id);
+        return "redirect:/student/showCourse";
+    }
+
+    @GetMapping("/course/viewSubject/{id}")
+    public String showSubjectList(@PathVariable("id") int courseId, Model model){
+        List<Subject> subjects = studentService.getSubjectListByCourseId(courseId);
+        model.addAttribute("subjects", subjects);
+        return "/user/student/subject/subjectList";
+    }
+
+    @GetMapping("/course/add")
+    public String showAddSubjectForm(Model model){
+        model.addAttribute("subject", new Subject());
+        model.addAttribute("courses", courseRepository.findAll());
+        return "/user/student/subject/formAddSubject";
     }
 
 }

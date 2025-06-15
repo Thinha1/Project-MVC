@@ -5,4 +5,6 @@ import vn.thinh.Studentms.model.entity.Course;
 
 public interface CourseRepository extends JpaRepository<Course, Integer> {
     Course findByName(String courseName);
+
+    Course findCourseById(int id);
 }

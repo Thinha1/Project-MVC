@@ -9,4 +9,6 @@ public interface ClassRepository extends JpaRepository<SchoolClass, Integer> {
     SchoolClass findByName(String className);
 
     SchoolClass findByCode(String classCode);
+
+    SchoolClass findByTeacherId(int id);
 }

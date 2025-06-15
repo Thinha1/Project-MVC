@@ -68,6 +68,7 @@
         <div id="class" style="display: none">
             <label>Lớp chủ nhiệm</label>
             <select th:field="*{schoolClassCode}" id="classValue">
+                <option value="" th:value="${schoolClassCode == null}">-- Chọn lớp --</option>
                 <option th:each="c : ${classList}" th:value="${c}" th:text="${c}"></option>
             </select>
         </div>

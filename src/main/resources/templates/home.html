@@ -13,6 +13,8 @@
 <div class="d-grid gap-3 col-6 mx-auto">
     <a th:href="@{student/showStudentList}" class="btn btn-primary btn-lg">Xem danh sách Sinh viên</a>
     <a th:href="@{staff/showStaff}" class="btn btn-success btn-lg" sec:authorize="hasAnyRole('MANAGER', 'ADMIN')">Xem danh sách Nhân viên</a>
+    <a th:href="@{student/showCourse}" class="btn btn-success btn-lg" sec:authorize="hasAnyRole('MANAGER', 'ADMIN')">Xem danh sách Ngành</a>
+    <a th:href="@{student/showClass}" class="btn btn-success btn-lg" sec:authorize="hasAnyRole('MANAGER', 'ADMIN')">Xem danh sách Lớp</a>
 </div>
 
 </body>

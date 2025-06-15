@@ -61,6 +61,10 @@ public class StaffController {
         model.addAttribute("staff", userDTO);
         model.addAttribute("roles", roleService.getRole());
         model.addAttribute("classList", userService.getClasList());
+        String currentClass = user.getSchoolClassList().get(0).getCode();
+        model.addAttribute("currentClass", currentClass);
+        model.addAttribute("currentClass", userService.findByTeacherId(id));
+        System.out.println(userService.findByTeacherId(id));
         return "/user/staff/editStaff";
     }
 
@@ -75,4 +79,6 @@ public class StaffController {
         userService.deleteStaff(id);
         return "redirect:/staff/showStaff";
     }
+
+
 }

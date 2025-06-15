@@ -9,6 +9,7 @@
 
 <div class="container mt-4">
     <h2 class="mb-4">Danh sách sinh viên</h2>
+    <a class="btn btn-success mb-3" th:href="@{/home}">Quay lại</a>
     <a class="btn btn-success mb-3" th:href="@{/student/showForm}">+ Thêm sinh viên</a>
     <table class="table table-bordered">
         <thead class="table-dark">
@@ -27,8 +28,8 @@
         <tr th:each="student : ${students}">
             <td th:text="${student.id}"></td>
             <td th:text="${student.fullName}"></td>
-            <td th:text="${student.schoolClassId.getCode()}"></td>
-            <td th:text="${student.courseId.getName()}"></td>
+            <td th:text="${student.schoolClass.code}"></td>
+            <td th:text="${student.courseId.name}"></td>
             <td th:text="${student.dateOfBirth}"></td>
             <td th:text="${student.gender}"></td>
             <td th:text="${student.address}"></td>
