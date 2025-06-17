@@ -264,12 +264,25 @@ public class StudentService {
         return course.getSubject();
     }
 
-    public void addSubject(SubjectDTO subjectDTO){
+    public void addSubject(SubjectDTO subjectDTO, int courseId){
         Subject subject = new Subject();
         subject.setCode(subjectDTO.getCode());
         subject.setName(subjectDTO.getName());
         subject.setCredits(subjectDTO.getCredits());
-        subject.setCourse(courseRepository.findByName(subjectDTO.getCourseName()));
+        subject.setCourse(courseRepository.findCourseById(courseId));
+        subject.setExamType(subjectDTO.getExamType() == null ? null : Subject.ExamType.valueOf(subjectDTO.getExamType()));
         subjectRepository.save(subject);
+    }
+
+    public void updateSubject(SubjectDTO subjectDTO, int subjectId){
+        Subject subject = subjectRepository.findSubjectById(subjectId);
+
+        if(!subject.getCode().equals(subjectDTO.getCode().trim())) {
+            subject.setCode(subjectDTO.getCode());
+        }
+
+        subject.setName(subjectDTO.getName());
+        subject.setCredits(subjectDTO.getCredits());
+        subject.setExamType(subjectDTO.getExamType() == null ? null : Subject.ExamType.valueOf(subjectDTO.getExamType()));
     }
 }

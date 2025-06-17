@@ -10,7 +10,7 @@
 <div class="container mt-4">
     <h2 class="mb-4">Danh sách môn học</h2>
     <a class="btn btn-success mb-3" th:href="@{/student/showCourse}">Quay lại</a>
-    <a class="btn btn-success mb-3" th:href="@{/student/subject/add}">+ Thêm môn học</a>
+    <a class="btn btn-success mb-3" th:href="@{/student/course/subject/showAddForm(id=${currentCourse.id})}">+ Thêm môn học</a>
     <table class="table table-bordered">
         <thead class="table-dark">
         <tr>
@@ -19,6 +19,7 @@
             <th>Tên môn học</th>
             <th>Số tín chỉ</th>
             <th>Ngành</th>
+            <th>Hình thức đánh giá</th>
             <th>Hành động</th>
         </tr>
         </thead>
@@ -29,11 +30,11 @@
             <td th:text="${subject.name}"></td>
             <td th:text="${subject.credits}"></td>
             <td th:text="${subject.course.name}"></td>
+            <td th:text="${subject.examType.name()}"></td>
             <td>
-                <a class="btn btn-info btn-sm" th:href="@{/student/view/{id}(id=${subject.id})}">Xem điểm</a>
-                <a class="btn btn-warning btn-sm" th:href="@{/student/edit/{id}(id=${subject.id})}">Sửa</a>
+                <a class="btn btn-warning btn-sm" th:href="@{/student/course/subject/edit/{id}(id=${subject.id})}">Sửa</a>
                 <a class="btn btn-danger btn-sm"
-                   th:href="@{/student/delete/{id}(id=${subject.id})}"
+                   th:href="@{/student/course/subject/delete/{id}(id=${subject.id})}"
                    onclick="return confirm('Bạn có chắc muốn xoá môn học này không?');">Xoá</a>
             </td>
         </tr>

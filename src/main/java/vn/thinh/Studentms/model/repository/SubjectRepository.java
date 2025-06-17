@@ -6,4 +6,5 @@ import vn.thinh.Studentms.model.entity.Subject;
 
 @Repository
 public interface SubjectRepository extends JpaRepository<Subject, Integer> {
+    Subject findSubjectById(int subjectId);
 }

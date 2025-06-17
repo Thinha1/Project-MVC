@@ -5,10 +5,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import vn.thinh.Studentms.model.DTO.ClassDTO;
-import vn.thinh.Studentms.model.DTO.CourseDTO;
-import vn.thinh.Studentms.model.DTO.ScoreDTO;
-import vn.thinh.Studentms.model.DTO.StudentDTO;
+import vn.thinh.Studentms.model.DTO.*;
 import vn.thinh.Studentms.model.entity.*;
 import vn.thinh.Studentms.model.repository.*;
 import vn.thinh.Studentms.service.StudentService;
@@ -243,14 +240,44 @@ public class StudentController {
     public String showSubjectList(@PathVariable("id") int courseId, Model model){
         List<Subject> subjects = studentService.getSubjectListByCourseId(courseId);
         model.addAttribute("subjects", subjects);
+        model.addAttribute("currentCourse", courseRepository.findCourseById(courseId));
         return "/user/student/subject/subjectList";
     }
 
-    @GetMapping("/course/add")
-    public String showAddSubjectForm(Model model){
-        model.addAttribute("subject", new Subject());
-        model.addAttribute("courses", courseRepository.findAll());
+    @GetMapping("/course/subject/showAddForm")
+    public String showAddSubjectForm(@RequestParam("id") int courseId, Model model){
+        model.addAttribute("subject", new SubjectDTO());
+        model.addAttribute("currentCourse", courseRepository.findCourseById(courseId));
+        model.addAttribute("examType", Subject.ExamType.values());
         return "/user/student/subject/formAddSubject";
+    }
+
+    @PostMapping("/course/subject/add/{id}")
+    public String addSubject(@ModelAttribute("subject") SubjectDTO subjectDTO, @PathVariable("id") int courseId){
+        studentService.addSubject(subjectDTO, courseId);
+        return "redirect:/student/course/viewSubject/" + courseId;
+    }
+
+    @GetMapping("/course/subject/edit/{id}")
+    public String editSubject(@PathVariable("id") int subjectId, Model model){
+        Subject subject = studentService.findSubjectById(subjectId);
+        SubjectDTO subjectDTO = new SubjectDTO();
+        subjectDTO.setId(subject.getId());
+        subjectDTO.setName(subject.getName());
+        subjectDTO.setCredits(subject.getCredits());
+        subjectDTO.setCode(subject.getCode());
+        subjectDTO.setCourseName(subject.getCourse().getName());
+        subjectDTO.setExamType(subject.getExamType().name());
+        model.addAttribute("subject", subjectDTO);
+        model.addAttribute("currentCourse", subject.getCourse());
+        model.addAttribute("examType", Subject.ExamType.values());
+        return "/user/student/subject/formEditSubject";
+    }
+
+    @PostMapping("/course/subject/update/{id}")
+    public String updateSubject(@ModelAttribute("subject") SubjectDTO subjectDTO, @PathVariable("id") int courseId){
+        studentService.updateSubject(subjectDTO, subjectDTO.getId());
+        return "redirect:/student/course/viewSubject/" + courseId;
     }
 
 }
