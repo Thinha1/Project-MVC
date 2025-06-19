@@ -11,7 +11,7 @@ The project helps practice core concepts of Java web development using the MVC p
 | Technology         | Purpose                                    |
 |--------------------|--------------------------------------------|
 | **Java 17+**        | Programming language                        |
-| **Spring MVC**      | Web framework                               |
+| **Spring Boot MVC** | Web application framework (simplified Spring MVC) |
 | **Thymeleaf**       | Template engine for rendering HTML          |
 | **MySQL**           | Relational database                         |
 | **Spring Data JPA** | Simplifies database access using repositories |
