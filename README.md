@@ -1,35 +1,34 @@
-# 📚 Student Management System - Spring MVC Web Application
+# 📚 Student Management System with Full CRUD - Spring Boot MVC Web Application
 
-This is a simple web application for managing students and their scores.  
-It is built using **Spring MVC**, **Thymeleaf**, **MySQL**, and **Lombok**.  
-The project helps practice core concepts of Java web development using the MVC pattern.
-
----
-
-## 🧰 Technologies Used
-
-| Technology         | Purpose                                    |
-|--------------------|--------------------------------------------|
-| **Java 17+**        | Programming language                        |
-| **Spring Boot MVC** | Web application framework (simplified Spring MVC) |
-| **Thymeleaf**       | Template engine for rendering HTML          |
-| **MySQL**           | Relational database                         |
-| **Spring Data JPA** | Simplifies database access using repositories |
-| **Hibernate**       | ORM provider used by Spring JPA underneath |
-| **Lombok**          | Reduces boilerplate code                    |
-| **Maven**           | Project management and build tool          |
+This is a web application built with **Spring Boot MVC**, **Thymeleaf**, **MySQL**, and **Lombok**.  
+The system supports full CRUD operations (Create, Read, Update, Delete) for managing students, staff, subjects, courses, and scores.  
+It is intended as a learning project to understand how to build a structured Java web application using the Spring ecosystem.
 
 ---
 
 ## ✨ Main Features
 
-- Add new students with basic info (name, gender, birth date, class...)
-- Edit and update student information
-- Delete students
-- View a list of all students
-- Add or update scores for students
-- Display courses and scores per student
-- Simple UI using Thymeleaf templates
+- 🔹 **Staff Management**: Add, update, delete, and list staff members
+- 🔹 **Student Management**: Full CRUD for student information
+- 🔹 **Course Management**: Manage courses offered in the system
+- 🔹 **Subject Management**: Create and update subjects per course
+- 🔹 **Score Management**: Add/edit/delete student scores by subject
+- 🔹 **Thymeleaf-based UI** with form validation and table display
+
+---
+
+## 🧰 Technologies Used
+
+| Technology         | Purpose                                        |
+|--------------------|------------------------------------------------|
+| **Java 17+**        | Programming language                           |
+| **Spring Boot MVC** | Simplifies Spring-based web development       |
+| **Thymeleaf**       | Template engine for server-side HTML rendering|
+| **MySQL**           | Relational database                           |
+| **Spring Data JPA** | Simplifies data access using repositories     |
+| **Hibernate**       | ORM provider used underneath Spring JPA       |
+| **Lombok**          | Reduces boilerplate Java code                 |
+| **Maven**           | Project build and dependency management       |
 
 ---
 
