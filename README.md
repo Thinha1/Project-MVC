@@ -56,7 +56,8 @@ src/
 
 ```sql
 CREATE DATABASE studentms;
-```
+
+```java
 - Then edit application.properties:
 spring.datasource.url=jdbc:mysql://localhost:3306/studentms //Make sure change your port to be fit with your machine
 spring.datasource.username=your_username
