@@ -65,6 +65,8 @@ spring.datasource.password=your_password
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
 
+```
+
 ## 🔧 Future Improvements
 
 Here are some ideas that may be added later:
