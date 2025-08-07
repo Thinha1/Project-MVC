@@ -21,14 +21,12 @@ import java.util.stream.Collectors;
 public class StaffController {
     private final StudentService studentService;
     private final UserService userService;
-    private final RoleRepository roleRepository;
     private final RoleService roleService;
 
     @Autowired
-    public StaffController(StudentService studentService, UserService userService, RoleRepository roleRepository, RoleService roleService) {
+    public StaffController(StudentService studentService, UserService userService, RoleService roleService) {
         this.studentService = studentService;
         this.userService = userService;
-        this.roleRepository = roleRepository;
         this.roleService = roleService;
     }
 

@@ -23,7 +23,6 @@ public class RoleService {
                 .map(Role::getRole)
                 .toList();
         List<String> notAvailaleRoles = Arrays.asList("ROLE_STUDENT", "ROLE_ADMIN");
-        List<String> availaleRoles = roleNames.stream().filter(roleName -> !notAvailaleRoles.contains(roleName)).toList();
-        return availaleRoles;
+        return roleNames.stream().filter(roleName -> !notAvailaleRoles.contains(roleName)).toList();
     }
 }

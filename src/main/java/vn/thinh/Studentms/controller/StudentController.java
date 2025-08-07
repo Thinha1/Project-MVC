@@ -16,7 +16,6 @@ import java.util.List;
 @Controller
 @RequestMapping("/student")
 public class StudentController {
-    private final StudentRepository studentRepository;
     private final ScoreRepository scoreRepository;
     private final UserService userService;
     private StudentService studentService;
@@ -25,12 +24,11 @@ public class StudentController {
     private SubjectRepository subjectRepository;
 
     @Autowired
-    public StudentController(StudentService studentService, CourseRepository courseRepository, ClassRepository classRepository, SubjectRepository subjectRepository, StudentRepository studentRepository, ScoreRepository scoreRepository, UserService userService) {
+    public StudentController(StudentService studentService, CourseRepository courseRepository, ClassRepository classRepository, SubjectRepository subjectRepository, ScoreRepository scoreRepository, UserService userService) {
         this.studentService = studentService;
         this.courseRepository = courseRepository;
         this.classRepository = classRepository;
         this.subjectRepository = subjectRepository;
-        this.studentRepository = studentRepository;
         this.scoreRepository = scoreRepository;
         this.userService = userService;
     }
